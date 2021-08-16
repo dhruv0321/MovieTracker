@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:yellow_class_assignment/components/DBHelper.dart';
-import 'package:yellow_class_assignment/components/imageUtil.dart';
 import 'package:yellow_class_assignment/components/movieInfo.dart';
 import 'package:yellow_class_assignment/widget/movie_form_widget.dart';
 
@@ -33,36 +29,24 @@ class _AddEditMoviePage extends State<AddEditMoviePage> {
     super.initState();
   }
 
-  pickImageFromGallery() {
-    ImagePicker().pickImage(source: ImageSource.gallery).then((imgFile) {
-      final file = File(imgFile!.path);
-      String imgString = Utility.base64String(file.readAsBytesSync());
-      print('Image refresh');
-      setState(() {
-        print("State change");
-        photoName = imgString;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
-        //resizeToAvoidBottomInset: false,
         appBar: AppBar(
           actions: [buildButton()],
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              addImageButton(),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
-                    //addImageButton(),
                     MovieFormWidget(
                       movieName: movieName,
                       dirName: dirName,
+                      photoName: photoName,
+                      onChangedPhotoName: (photoName) =>
+                          setState(() => this.photoName = photoName),
                       onChangedMovieName: (movieName) =>
                           setState(() => this.movieName = movieName),
                       onChangedDirName: (dirName) =>
@@ -76,34 +60,6 @@ class _AddEditMoviePage extends State<AddEditMoviePage> {
         ),
       );
 
-  Widget addImageButton() {
-    return InkWell(
-      onTap: pickImageFromGallery,
-      child: Container(
-        margin: EdgeInsets.all(10),
-        height: 300,
-        width: 400,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3), BlendMode.dstATop),
-            image: Utility.imageFromBase64String(photoName).image,
-          ),
-        ),
-        child: Center(
-          child: CircleAvatar(
-            backgroundColor: Colors.white60,
-            child: Icon(
-              Icons.add,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildButton() {
     final isFormValid = movieName.isNotEmpty && dirName.isNotEmpty;
 
@@ -111,11 +67,11 @@ class _AddEditMoviePage extends State<AddEditMoviePage> {
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onPrimary: isFormValid ? Colors.black : Colors.white,
+          onPrimary: isFormValid ? Colors.black : Colors.grey,
           onSurface: Colors.transparent,
           primary: isFormValid ? Colors.greenAccent : Colors.transparent,
         ),
-        onPressed: addOrUpdateNote,
+        onPressed: isFormValid ? addOrUpdateNote : () {},
         child: Text('Save'),
       ),
     );

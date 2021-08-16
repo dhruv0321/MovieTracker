@@ -18,14 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.dark,
-        theme: ThemeData(
-          primaryColor: Colors.black,
-          scaffoldBackgroundColor: Colors.blueGrey[900],
-          // appBarTheme: AppBarTheme(
-          //   backgroundColor: Colors.transparent,
-          //   elevation: 0,
-          // ),
-        ),
+        theme: ThemeData.dark(),
         title: 'Yellow Class Assignment',
         home: HomePage(),
       ),

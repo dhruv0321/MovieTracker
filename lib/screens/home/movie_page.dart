@@ -57,7 +57,6 @@ class _MoviePageState extends State<MoviePage> {
                 style: TextStyle(color: Colors.greenAccent),
               )),
         ],
-        centerTitle: true,
         title: Row(
           children: [
             CircleAvatar(
@@ -75,17 +74,15 @@ class _MoviePageState extends State<MoviePage> {
           ],
         ),
       ),
-      body: SafeArea(
-        child: Center(
-          child: isLoading
-              ? CircularProgressIndicator()
-              : movies.isEmpty
-                  ? Text(
-                      'No Movies',
-                      style: TextStyle(color: Colors.white, fontSize: 32),
-                    )
-                  : buildCards(),
-        ),
+      body: Center(
+        child: isLoading
+            ? CircularProgressIndicator()
+            : movies.isEmpty
+                ? Text(
+                    'No Movies',
+                    style: TextStyle(color: Colors.white, fontSize: 32),
+                  )
+                : buildCards(),
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
@@ -188,7 +185,7 @@ class _MoviePageState extends State<MoviePage> {
     );
   }
 
-  Container buildFront(MovieInfo movie) {
+  Widget buildFront(MovieInfo movie) {
     return Container(
       child: Stack(
         alignment: Alignment.bottomCenter,
